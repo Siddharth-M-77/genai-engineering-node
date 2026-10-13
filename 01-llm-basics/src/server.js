@@ -7,6 +7,11 @@ app.use(express.json());
 
 const SYSTEM_PROMPT = "You are a concise, helpful assistant for a developer. Answer in under 120 words.";
 
+// GET /info - active provider, model and system prompt (shown in the UI)
+app.get("/info", (req, res) => {
+  res.json({ provider: process.env.PROVIDER || "gemini", model: MODEL, systemPrompt: SYSTEM_PROMPT });
+});
+
 // Build the message array: system prompt + optional past turns + new user message
 function buildMessages(message, history = []) {
   return [{ role: "system", content: SYSTEM_PROMPT }, ...history, { role: "user", content: message }];
@@ -48,7 +53,6 @@ app.post("/chat", async (req, res) => {
   }
 });
 
-// POST /chat/stream - sends tokens as they arrive using Server-Sent Events
 app.post("/chat/stream", async (req, res) => {
   const message = validate(req, res);
   if (!message) return;
