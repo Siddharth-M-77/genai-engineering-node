@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import OpenAI from "openai";
 
 dotenv.config();
-console.log("Using provider:", process.env.GEMINI_API_KEY || "gemini");
+console.log("Using provider:", process.env.PROVIDER || "gemini");
 
 const PROVIDERS = {
   gemini: {
